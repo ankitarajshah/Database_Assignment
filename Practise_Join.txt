@@ -1,0 +1,120 @@
+CREATE DATABASE joins;
+USE TABLE joins
+
+CREATE TABLE student(
+	student_id INT PRIMARY KEY NOT NULL,
+	NAME VARCHAR(100)
+);
+INSERT INTO student 
+(student_id,NAME)
+VALUES 
+(101,"adam"),
+(102,"bob"),
+(103,"casey");
+
+SELECT * FROM student;
+
+CREATE TABLE course(
+	student_id INT PRIMARY KEY NOT NULL,
+	course VARCHAR(50)
+);
+INSERT INTO course
+(student_id,course)
+VALUES
+(102,"english"),
+(105, "math"),
+(103, "science"),
+(107, "computer science");
+
+
+
+
+CREATE TABLE employee(
+	id INT PRIMARY KEY,
+	NAME VARCHAR(50),
+	manager_id INT
+);
+INSERT INTO employee
+VALUES
+(101,"adam",103),
+(102,"bob",104),
+(103,"casey",NULL),
+(104,"donald",103);  
+
+SELECT * FROM employee;
+
+//self JOIN
+
+SELECT * 
+FROM employee AS a
+JOIN employee AS b
+ON a.id=b.manager_id; 
+
+SELECT a.`name`AS manager_name,b.`name`
+FROM employee AS a
+JOIN employee AS b
+ON a.id=b.manager_id;
+
+SELECT * FROM course;
+
+//INNER JOIN
+
+SELECT *
+FROM student 
+INNER JOIN course
+ON student.`student_id`=course.`student_id`;
+
+SELECT *
+FROM student AS s
+INNER JOIN course AS c
+ON s.`student_id`=c.`student_id`;
+
+//LEFT JOIN
+SELECT *
+FROM student 
+LEFT JOIN course
+ON student.`student_id`=course.`student_id`;
+
+//RIGHT JOIN
+SELECT *
+FROM student
+RIGHT JOIN course
+ON student.`student_id`=course.`student_id`;
+
+//FULL JOIN
+SELECT *
+FROM student AS a
+LEFT JOIN course AS b
+ON a.`student_id`=b.`student_id`
+UNION
+SELECT *
+FROM student AS a
+RIGHT JOIN course AS b
+ON a.student_id =b.student_id;
+
+//LEFT exclusive JOIN 
+SELECT *
+FROM student AS a
+LEFT JOIN course AS b
+ON a.`student_id`=b.`student_id`
+WHERE b.`student_id`IS NULL;
+
+//RIGHT exclusive JOIN
+SELECT *
+FROM student AS a
+RIGHT JOIN course AS b
+ON a.student_id=b.student_id
+WHERE a.student_id IS NULL;
+
+// exclusive JOIN 
+SELECT *
+FROM student AS a
+LEFT JOIN course AS b
+ON a.`student_id`=b.`student_id`
+WHERE b.`student_id`IS NULL;
+UNION
+SELECT *
+FROM student AS a
+RIGHT JOIN course AS b
+ON a.student_id=b.student_id
+WHERE a.student_id IS NULL;
